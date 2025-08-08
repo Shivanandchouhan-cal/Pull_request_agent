@@ -1,0 +1,10 @@
+name: AI PR Review Boton
+on:
+  workflow_dispatch:
+  # pull_request:
+  #   types: [opened, synchronize, reopened]jobs:
+  review:
+    runs-on: ubuntu-  # Or 'ubuntu-latest' for GitHub-hosted runnersteps:
+      - name: Checkout PR branchuses: actions/checkout@v4
+      - name: Install PR Botworking-directory: ./pr-agentshell: bashrun: |          pip install -e .      - name: Run PR Reviewenv:
+          GITHUB__USER_TOKEN: ${{ secrets.AI_PR_REVIEW_BOT }}OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}working-directory: pr-agentshell: bashrun: |          python -c "from pr_agent.cli import run_for_pr; run_for_pr('${{ github.event.pull_request.html_url }}')"
